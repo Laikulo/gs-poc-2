@@ -1,6 +1,19 @@
 :80 {
-	root * /srv/www-outside
+	root * /srv/www-outside/htdocs
 	file_server browse
+
+	handle_path /templates/* {
+		root * /srv/www-outside/templates
+		file_server browse
+		templates {
+			between <| |>
+			mime application/json
+		}
+	}
+
+	# cheapshot rewrite to deal with fluid/mainsail config templates
+	rewrite /fluidd/config.json /templates/fluidd-config.json
+	rewrite /mainsail/config.json /templates/mainsail-config.json
 
 	handle_errors {
 		respond "{err.status_code} {err.status_text}"

@@ -1,0 +1,15 @@
+
+{
+    "defaultLocale": "en",
+    "defaultMode": "dark",
+    "defaultTheme": "mainsail",
+    "hostname": null,
+    "port": null,
+    "path": null,
+    "instancesDB": "json",
+    "instances": [
+		{%- for printer in printers %}
+		"http://<|.Host|>/m/{{printer.name}}"{% if not loop.last %},{% endif %}
+		{%- endfor %}
+     ]
+}
