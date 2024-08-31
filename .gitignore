@@ -1,0 +1,9 @@
+/confs/
+/scratch/
+/tftproots/
+
+/assets/
+/printer-list
+/ghostship.conf
+
+*.swp

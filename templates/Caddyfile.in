@@ -1,0 +1,16 @@
+:80 {
+	root * /srv/www-outside
+	file_server browse
+
+	handle_errors {
+		respond "{err.status_code} {err.status_text}"
+	}
+
+	# Ghostship printer entries
+	{%- for printer in printers %}
+	reverse_proxy /m/{{printer.name}}/* http://{{printer.ip_addr}}:7125
+	{%- endfor %}
+
+	redir /tty /tty/
+	reverse_proxy /tty/* http://127.0.0.1:7681
+}

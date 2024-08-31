@@ -1,0 +1,7 @@
+name,ip_addr,mac_addr,nb_type
+printer1,10.13.37.10,aa:bb:cc:dd:ee:01,pi_3
+printer2,10.13.37.11,aa:bb:cc:dd:ee:02,pi_3p
+printer3,10.13.37.12,aa:bb:cc:dd:ee:03,pi_4
+printer4,10.13.37.13,aa:bb:cc:dd:ee:04,pi_5
+printer5,10.13.37.14,aa:bb:cc:dd:ee:05,pxe_x64
+printer6,10.13.37.15,aa:bb:cc:dd:ee:06,pxe_lafrite

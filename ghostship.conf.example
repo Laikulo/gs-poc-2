@@ -1,0 +1,5 @@
+[ghostship]
+outside_interface=enx5efd269d5763
+printernet_interface=end0
+printernet_interface_ip=10.13.37.1
+printernet_allow_outside_access=

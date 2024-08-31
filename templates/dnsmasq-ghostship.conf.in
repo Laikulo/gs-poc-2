@@ -1,0 +1,41 @@
+# This file is managed by Ghostship. Changes will be overwritten
+
+bind-dynamic
+interface={{printernet_interface}}
+{%- if printernet_dynamic %}
+dhcp-range=set:net_printernet,{{printernet_dynamic_start}},{{printernet_dynamic_end}},1d
+{%- else %}
+dhcp-range=set:net_printernet,{{printernet_interface_ip}},static,1d
+{%- endif %}
+
+{%- if printernet_allow_outside_access %}
+#Default DHCP Router option will be sent
+{%- else %}
+dhcp-option=option:router
+{%- endif %}
+
+# Raspberry pi OUIs
+# set pi_ouis in ghostship config to override this list
+{%- for oiu in pi_ouis %}
+dhcp-mac=set:pi_oui,{{oui}}:*:*:*
+{%- else %}
+dhcp-mac=set:pi_oui,28:cd:c1:*:*:*
+dhcp-mac=set:pi_oui,2c:cf:67:*:*:*
+dhcp-mac=set:pi_oui,b8:27:eb:*:*:*
+dhcp-mac=set:pi_oui,d8:3a:dd:*:*:*
+dhcp-mac=set:pi_oui,dc:a6:32:*:*:*
+dhcp-mac=set:pi_oui,e4:5f:01:*:*:*
+{%- endfor %}
+
+dhcp-vendorclass=set:pi_vc,PXEClient:Arch:00000:UNDI:002001
+
+tag-if=set:pi_netboot,tag:pi_oui,tag:pi_vc
+
+# We only send the pi netboot string to Pis, becaus it can confuse some pxe stacks
+# The extra spaces are to deal with a bug in the pi bootrom
+pxe-service=tag:pi_netboot,0,"Raspberry Pi Boot   "
+
+# Ghostship printers
+{%- for printer in printers %}
+dhcp-host=set:gs_printer,{{printer.mac_addr}},{{printer.ip_addr}},{{printer.name}}
+{%- endfor %}
