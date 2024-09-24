@@ -1,6 +1,7 @@
 # This file is managed by Ghostship. Changes will be overwritten
 
 bind-dynamic
+dhcp-authoritative
 interface={{printernet_interface}}
 {%- if printernet_dynamic %}
 dhcp-range=set:net_printernet,{{printernet_dynamic_start}},{{printernet_dynamic_end}},1d
@@ -12,6 +13,7 @@ dhcp-range=set:net_printernet,{{printernet_interface_ip}},static,1d
 #Default DHCP Router option will be sent
 {%- else %}
 dhcp-option=option:router
+no-resolv
 {%- endif %}
 
 # Raspberry pi OUIs
@@ -28,6 +30,7 @@ dhcp-mac=set:pi_oui,e4:5f:01:*:*:*
 {%- endfor %}
 
 dhcp-vendorclass=set:pi_vc,PXEClient:Arch:00000:UNDI:002001
+dhcp-vendorclass=set:uboot_vc,U-Boot
 
 tag-if=set:pi_netboot,tag:pi_oui,tag:pi_vc
 
@@ -35,7 +38,20 @@ tag-if=set:pi_netboot,tag:pi_oui,tag:pi_vc
 # The extra spaces are to deal with a bug in the pi bootrom
 pxe-service=tag:pi_netboot,0,"Raspberry Pi Boot   "
 
+dhcp-boot=tag:uboot_vc,Image
+
 # Ghostship printers
 {%- for printer in printers %}
 dhcp-host=set:gs_printer,{{printer.mac_addr}},{{printer.ip_addr}},{{printer.name}}
 {%- endfor %}
+
+enable-tftp={{printernet_interface}}
+tftp-root=/srv/tftp
+tftp-unique-root=ip
+
+# DNS
+auth-server=printernet,{{printernet_interface}}
+auth-zone=printernet,{{printernet_interface}}
+local=/printernet/
+domain=printernet
+dhcp-fqdn

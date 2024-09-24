@@ -15,6 +15,7 @@ set -e -x
 
 cp confs/caddy-fluidd-config.json.tpl /srv/www-outside/templates/fluidd-config.json
 cp confs/caddy-mainsail-config.json.tpl /srv/www-outside/templates/mainsail-config.json
+cp confs/pgcode.html.tpl /srv/www-outside/templates/pgcode.html
 
 install confs/Caddyfile /etc/caddy/Caddyfile
 systemctl reload caddy
@@ -32,4 +33,4 @@ fi
 
 [[ -d /srv/tftp ]] || mkdir /srv/tftp
 
-rsync -r --delete ./tftproots/ /srv/tftp/
+#rsync -r --delete ./tftproots/ /srv/tftp/

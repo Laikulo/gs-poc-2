@@ -31,6 +31,7 @@ template_file('Caddyfile',jenv,conf_vars)
 template_file('dnsmasq-ghostship.conf',jenv,conf_vars)
 template_file('caddy-fluidd-config.json.tpl',jenv,conf_vars)
 template_file('caddy-mainsail-config.json.tpl',jenv,conf_vars)
+template_file('pgcode.html.tpl',jenv,conf_vars)
 
 
 tftp_base=Path('./tftproots')

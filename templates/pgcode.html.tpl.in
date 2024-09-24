@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PGCode Selector</title>
+	</head>
+	<body>
+		<H1>PGCode Selector</H1>
+		<ul>
+			{%- for printer in printers %}
+			<li><a href=/pgcode/pgcode.html?server=<|placeholder "http.request.scheme"|>://<|.Host|>/m/{{printer.name}}>{{printer.name}}</a></li>
+			{%- endfor %}
+		</ul>
+	</body>
+</html>
+

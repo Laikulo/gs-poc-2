@@ -7,13 +7,18 @@
 		file_server browse
 		templates {
 			between <| |>
-			mime application/json
+			mime application/json text/html
 		}
 	}
 
 	# cheapshot rewrite to deal with fluid/mainsail config templates
 	rewrite /fluidd/config.json /templates/fluidd-config.json
 	rewrite /mainsail/config.json /templates/mainsail-config.json
+	rewrite /pgcode /templates/pgcode.html
+
+	handle /mainsail/* {
+		try_files {path} /mainsail/index.html
+	}
 
 	handle_errors {
 		respond "{err.status_code} {err.status_text}"
